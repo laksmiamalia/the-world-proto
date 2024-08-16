@@ -1,8 +1,7 @@
 import streamlit as st
 import requests
-import folium
-from streamlit_folium import st_folium
-from geopy.geocoders import Nominatim
+from PIL import Image
+from io import BytesIO
 
 # Set page title and favicon
 st.set_page_config(page_title="Know The World", page_icon="🌍")
@@ -50,21 +49,5 @@ if country_name:
             st.write(f"**Area:** {area} km²")
             st.write(f"**Languages:** {languages}")
             st.write(f"**Currencies:** {currencies}")
-
-        # Interactive map with Folium
-        geolocator = Nominatim(user_agent="geoapiExercises")
-        location = geolocator.geocode(country_name)
-
-        if location:
-            # Create a Folium map centered at the country location
-            m = folium.Map(location=[location.latitude, location.longitude], zoom_start=4)
-
-            # Optionally, add a marker
-            folium.Marker([location.latitude, location.longitude], tooltip=f"{country}").add_to(m)
-
-            # Display the map in Streamlit
-            st_folium(m, width=700, height=500)
-        else:
-            st.warning("Map data not available for this country.")
     else:
         st.error("Country not found.")
